@@ -1,23 +1,12 @@
-version: "2"
+version: '2'
 services:
-  app:
-    image: sameersbn/redmine
-    environment:
-      - DB_HOST=db
-      - DB_NAME=redmine_production
-      - DB_USER=root
-      - DB_PASS=root
-    links:
-      - db
-    depends_on:
-      - db
+  web:
+    build: .
     ports:
-      - 80:80
+     - "5000:5000"
     volumes:
-      - ./:/home/redmine/redmine/plugins/redmine_plugin_of_yours/
-  db:
-    image: mysql
-    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
-    environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=redmine_production
+     - .:/code
+    depends_on:
+     - redis
+  redis:
+    image: redis
